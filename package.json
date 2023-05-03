@@ -1,0 +1,26 @@
+{
+  "name": "workoutdiary-v2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@flaticon/flaticon-uicons": "^2.1.0",
+    "@googlemaps/polyline-codec": "^1.0.28",
+    "autoprefixer": "10.4.14",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
+    "leaflet-gesture-handling": "^1.2.2",
+    "lodash.compact": "^3.0.1",
+    "lodash.isequal": "^4.5.0",
+    "next": "13.3.4",
+    "postcss": "8.4.23",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-leaflet": "^4.2.1",
+    "tailwindcss": "3.3.2"
+  }
+}
