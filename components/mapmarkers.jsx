@@ -1,4 +1,5 @@
-import { Marker, Popup } from 'react-leaflet';
+import { Marker, Popup, useMap } from 'react-leaflet';
+import { useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
@@ -7,9 +8,9 @@ import L from 'leaflet';
 
 const markerIcon = L.icon({
   iconUrl: '/marker.png',
-  iconSize: [30, 30],
-  iconAnchor: [14, 25],
-  popupAnchor: [-3, -76],
+  iconSize: [40, 40],
+  iconAnchor: [30, 40],
+  popupAnchor: [-8, -40],
   shadowUrl: null,
   shadowSize: [68, 95],
   shadowAnchor: [22, 94],
@@ -53,18 +54,38 @@ export default function MapMarkers(props) {
               dragend: e => {
                 onMarkerDragend(e);
               },
+              // theres this weird bug that makes the map panning stop when the popup opens, here a not so optimal work around
+              click: e => {
+                if (props.editWorkout == -1) {
+                  props.setHighlightWorkout(workoutKey);
+                  e.target.off('click');
+                  props.setDisableAddMarker(true);
+                  props.setMapFocus([true, e.target.getLatLng()]);
+                  e.target.openPopup();
+                } else {
+                  e.target.on('click', () => e.target.openPopup());
+                }
+              },
+              mouseover: e => {
+                e.target.openPopup();
+              },
             }}
           >
             {workoutKey == props.editWorkout ? (
               <Popup>
-                Hey
                 <button
+                  className="popup-button"
                   onClick={() => removeMarker(markerKey)}
-                  className=" border-4 border-gray-700"
-                ></button>
+                >
+                  Delete
+                </button>
               </Popup>
             ) : (
-              ''
+              <Popup>
+                {props.workouts[workoutKey].workoutType +
+                  ' on ' +
+                  props.workouts[workoutKey].workoutDate}
+              </Popup>
             )}
           </Marker>
         ))

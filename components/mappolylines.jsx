@@ -37,7 +37,6 @@ function setGeometry(props) {
   }
 
   if (props.workouts[props.editWorkout].markers === undefined) {
-    console.log('abort');
     return;
   }
 
@@ -81,8 +80,7 @@ function setGeometry(props) {
   }
 }
 
-const lineColor = '#6699ff';
-const highlightColor = 'red';
+const lineColor = '#b30000';
 const lineOpacity = 0.6;
 const highlightOpactiy = 1;
 const lineWeight = 3;
@@ -95,15 +93,12 @@ export default function MapPolylines(props) {
     () => setLocalHighlightWorkout(props.highlightWorkout),
     [props.highlightWorkout]
   );
-  useEffect(
-    () =>
-      props.workouts[localHighlightWorkout] === undefined
-        ? console.log('whatever')
-        : props.setHighlightWorkout(localHighlightWorkout),
-    [localHighlightWorkout]
-  );
+  useEffect(() => {
+    if (!(props.workouts[localHighlightWorkout] === undefined)) {
+      props.setHighlightWorkout(localHighlightWorkout);
+    }
+  }, [localHighlightWorkout]);
 
-  //console.log('Highlight Workout: ' + props.highlightWorkout);
   return (
     <div>
       {Object.keys(props.workouts).map(workoutKey =>
@@ -126,7 +121,7 @@ export default function MapPolylines(props) {
       {props.highlightWorkout != -1 ? (
         <Polyline
           positions={decode(props.workouts[props.highlightWorkout].geometry)}
-          color={highlightColor}
+          color={lineColor}
           opacity={highlightOpactiy}
           weight={highlightWeight}
         />

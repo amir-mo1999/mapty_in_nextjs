@@ -1,7 +1,11 @@
+let dontHighlight = false;
+
 function deleteWorkout(props) {
   const workouts = props.workouts;
   delete workouts[props.workoutKey];
   props.setWorkouts({ ...workouts });
+  props.setHighlightWorkout(-1);
+  dontHighlight = true;
 }
 
 function formatDistance(d) {
@@ -13,6 +17,10 @@ function formatDistance(d) {
 }
 
 function zoomToAndHighlightWorkout(props) {
+  if (dontHighlight) {
+    dontHighlight = false;
+    return;
+  }
   const markers = props.workouts[props.workoutKey].markers;
   const markerKeys = Object.keys(markers).map(x => Number(x));
   const minMarkerKey = Math.min(...markerKeys);
@@ -29,22 +37,27 @@ function enableEdit(props) {
 
 export default function WorkoutWidget(props) {
   return (
-    <div className="">
+    <div>
       <li
         className={
           'workout ' +
-          (props.workouts[props.workoutKey].workoutType == 'running'
-            ? 'workout--running'
-            : 'workout--cycling')
+          (props.workouts[props.workoutKey].workoutType == 'Running'
+            ? 'workout--running '
+            : 'workout--cycling ') +
+          (props.highlightWorkout == props.workoutKey
+            ? 'workout--highlight'
+            : '')
         }
         key={props.workoutKey}
-        onClick={() =>
-          zoomToAndHighlightWorkout(props.workouts[props.workoutKey].type)
-        }
+        onClick={() => zoomToAndHighlightWorkout(props)}
       >
-        <h2 className="workout__title row-start-1 row-span-1 col-start1 col-span-1">
-          {props.workouts[props.workoutKey].workoutType}
-        </h2>
+        <div className="text-left row-start-1 row-span-1 col-start1 col-span-2 whitespace-nowrap">
+          <h2 className="workout__title">
+            {props.workouts[props.workoutKey].workoutType +
+              ' on ' +
+              props.workouts[props.workoutKey].workoutDate}
+          </h2>
+        </div>
 
         <div className="workout__details row-start-2 row-span-1 col-span-1">
           <span className="workout__icon">🏃‍♂️</span>
@@ -77,10 +90,18 @@ export default function WorkoutWidget(props) {
           <span className="workout__unit">spm</span>
         </div>
 
-        <div className="row-start-1 row-span-1 col-start-4 col-span-1 ml-auto mr-0">
-          <button onClick={() => enableEdit(props)}>...</button>
-          <button onClick={() => deleteWorkout(props)}>x</button>
-        </div>
+        <button
+          className="edit-button-img w-[1.8rem] -translate-y-[1rem] translate-x-[3rem] col-start-4 row-start-1"
+          onClick={() => enableEdit(props)}
+        >
+          <img src={'/edit.png'} className="" />
+        </button>
+        <button
+          onClick={() => deleteWorkout(props)}
+          className="delete-button-img w-[2.5rem] translate-x-[5.4rem] -translate-y-[1rem] col-start-4 row-start-1"
+        >
+          <img src={'/close.png'} className="" />
+        </button>
       </li>
     </div>
   );

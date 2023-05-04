@@ -20,7 +20,13 @@ function isSubmitValid(duration, cadence, elevation, editWorkoutMarkers) {
 }
 
 function onFormSubmit(e, props) {
-  const workoutType = e.target.workoutType.value;
+  let workoutType = e.target.workoutType.value;
+  workoutType = workoutType.charAt(0).toUpperCase() + workoutType.slice(1);
+  let workoutDate = new Date();
+  workoutDate = workoutDate.toLocaleString('en-IN', {
+    month: 'long',
+    day: 'numeric',
+  });
   const duration = Number(e.target.duration.value);
   const cadence = Number(e.target.cadence.value);
   const elevation = Number(e.target.elevation.value);
@@ -38,6 +44,7 @@ function onFormSubmit(e, props) {
     workout['cadence'] = cadence;
     workout['duration'] = duration;
     workout['elevation'] = elevation;
+    workout['workoutDate'] = workoutDate;
     props.setWorkouts({ ...props.workouts, [props.editWorkout]: workout });
     props.setEditWorkout(-1);
     props.setHighlightWorkout(-1);
@@ -47,7 +54,6 @@ function onFormSubmit(e, props) {
 export default function WorkoutForm(props) {
   return (
     <form
-      key={props.workoutKey}
       method="post"
       className="form"
       action="/api/postworkout"
@@ -79,6 +85,11 @@ export default function WorkoutForm(props) {
           id="duration"
           className="form__input form__input--duration"
           placeholder="min"
+          defaultValue={
+            props.workouts[props.workoutKey].duration == null
+              ? {}
+              : props.workouts[props.workoutKey].duration
+          }
         />
       </div>
 
@@ -89,6 +100,11 @@ export default function WorkoutForm(props) {
           id="cadence"
           className="form__input form__input--cadence"
           placeholder="step/min"
+          defaultValue={
+            props.workouts[props.workoutKey].cadence == null
+              ? {}
+              : props.workouts[props.workoutKey].cadence
+          }
         />
       </div>
 
@@ -99,6 +115,11 @@ export default function WorkoutForm(props) {
           id="elevation"
           className="form__input form__input--elevation"
           placeholder="meters"
+          defaultValue={
+            props.workouts[props.workoutKey].elevation == null
+              ? {}
+              : props.workouts[props.workoutKey].elevation
+          }
         />
       </div>
       <button className="button-3 text-left ">Submit</button>

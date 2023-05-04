@@ -13,6 +13,7 @@ function createNewWorkout(
   const newWorkout = {
     [workoutCounter]: {
       markerCounter: 0,
+      workoutDate: null,
       markers: {},
       geometry: '',
       distance: null,
@@ -36,6 +37,7 @@ function CreateWorkoutButton(props) {
   }
   return (
     <button
+      className="button-3 m-auto"
       onClick={() => {
         createNewWorkout(
           props.workoutCounter,
@@ -46,7 +48,6 @@ function CreateWorkoutButton(props) {
         );
         props.setEditWorkout(props.workoutCounter); // set the created workout as the one being edited
       }}
-      className="button-3 w-1/2 mt-5"
     >
       Create new Workout
     </button>
@@ -57,10 +58,12 @@ export default function Sidebar(props) {
   // what workout should be rendered with a form rather than a widget, meaning that it is currently being edited
   return (
     <div className="sidebar">
+      <img src="/logo.png" alt="Logo" className="logo" />
       <ui className="workouts">
         {Object.keys(props.workouts).map(key =>
           key == props.editWorkout ? (
             <WorkoutForm
+              key={key}
               workoutKey={key}
               workouts={props.workouts}
               setWorkouts={props.setWorkouts}
@@ -70,12 +73,14 @@ export default function Sidebar(props) {
             />
           ) : (
             <WorkoutWidget
+              key={key}
               setMapFocus={props.setMapFocus}
               workoutKey={key}
               workouts={props.workouts}
               setWorkouts={props.setWorkouts}
               editWorkout={props.editWorkout}
               setEditWorkout={props.setEditWorkout}
+              highlightWorkout={props.highlightWorkout}
               setHighlightWorkout={props.setHighlightWorkout}
             />
           )
