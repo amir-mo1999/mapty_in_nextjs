@@ -38,12 +38,13 @@ function CenterToUserLocation() {
 function MapWrapper(props) {
   const [disableAddMarker, setDisableAddMarker] = useState(false);
   return (
-    <div id="map" className="relative w-full h-full">
+    <div id="map" className="relative h-full w-full">
       <MapContainer
         className="w-full h-full absolute"
         center={[51.1657, 10.4515]}
         zoom={7}
         minZoom={2}
+        maxZoom={15}
         zoomDelta={1}
         wheelPxPerZoomLevel={60}
         gestureHandling={true}
@@ -52,6 +53,7 @@ function MapWrapper(props) {
           url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pci1tbzE5OTkiLCJhIjoiY2xoMTA3cnhwMHlodjNkcG4waDdqcGh2dCJ9.dCjkjQd45OAjmquX1H-IRQ`}
           attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
         />
+
         <MapMarkers
           workouts={props.workouts}
           setWorkouts={props.setWorkouts}

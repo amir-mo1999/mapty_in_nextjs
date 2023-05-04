@@ -13,7 +13,7 @@ export default function Index() {
   const [highlightWorkout, setHighlightWorkout] = useState(-1);
   const [mapFocus, setMapFocus] = useState([false, {}]);
   return (
-    <main className="w-full h-full flex flex-column justify-items-stretch justify-stretch">
+    <main className="">
       <Sidebar
         highlightWorkout={highlightWorkout}
         setHighlightWorkout={setHighlightWorkout}
@@ -25,20 +25,18 @@ export default function Index() {
         editWorkout={editWorkout}
         setEditWorkout={setEditWorkout}
       ></Sidebar>
-      <div className="flex-1 bg-red-200">
-        <MapWrapper
-          highlightWorkout={highlightWorkout}
-          setHighlightWorkout={setHighlightWorkout}
-          mapFocus={mapFocus}
-          setMapFocus={setMapFocus}
-          workouts={workouts}
-          setWorkouts={setWorkouts}
-          workoutCounter={workoutCounter}
-          setWorkoutCounter={setWorkoutCounter}
-          editWorkout={editWorkout}
-          setEditWorkout={setEditWorkout}
-        ></MapWrapper>
-      </div>
+      <MapWrapper
+        highlightWorkout={highlightWorkout}
+        setHighlightWorkout={setHighlightWorkout}
+        mapFocus={mapFocus}
+        setMapFocus={setMapFocus}
+        workouts={workouts}
+        setWorkouts={setWorkouts}
+        workoutCounter={workoutCounter}
+        setWorkoutCounter={setWorkoutCounter}
+        editWorkout={editWorkout}
+        setEditWorkout={setEditWorkout}
+      ></MapWrapper>
     </main>
   );
 }

@@ -1,3 +1,11 @@
+function formatDistance(d) {
+  if (d >= 1000) {
+    return (+(d / 1000).toFixed(1)).toString() + ' km';
+  } else {
+    return d.toFixed(0) + ' m';
+  }
+}
+
 function isSubmitValid(duration, cadence, elevation, editWorkoutMarkers) {
   if (
     duration <= 0 ||
@@ -39,8 +47,9 @@ function onFormSubmit(e, props) {
 export default function WorkoutForm(props) {
   return (
     <form
+      key={props.workoutKey}
       method="post"
-      className="form w-[90%]"
+      className="form"
       action="/api/postworkout"
       onSubmit={e => {
         e.preventDefault();
@@ -49,17 +58,18 @@ export default function WorkoutForm(props) {
     >
       <div className="form__row">
         <label className="form__label">Type</label>
-        <select
-          id="workoutType"
-          className=" text-slate-950 form__input form__input--type"
-        >
+        <select id="workoutType" className="form__input form__input--type">
           <option value="running">Running</option>
           <option value="cycling">Cycling</option>
         </select>
       </div>
       <div className="form__row">
         <label className="form__label">Distance</label>
-        <p className="text-slate-950 form__input form__input--distance">Hey</p>
+        <p className="text-slate-950 form__input form__input--distance">
+          {props.workouts[props.workoutKey].distance == null
+            ? '0 km'
+            : formatDistance(props.workouts[props.workoutKey].distance)}
+        </p>
       </div>
 
       <div className="form__row">
@@ -91,7 +101,7 @@ export default function WorkoutForm(props) {
           placeholder="meters"
         />
       </div>
-      <button className="button-3 form__btn text-left ">Submit</button>
+      <button className="button-3 text-left ">Submit</button>
     </form>
   );
 }

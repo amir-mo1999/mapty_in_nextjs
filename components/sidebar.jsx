@@ -56,20 +56,19 @@ function CreateWorkoutButton(props) {
 export default function Sidebar(props) {
   // what workout should be rendered with a form rather than a widget, meaning that it is currently being edited
   return (
-    <div className="flex pt-5 flex-col w-[30%] bg-[#2d3439] items-center">
-      {Object.keys(props.workouts).map(key =>
-        key == props.editWorkout ? (
-          <div className="h-full w-full" key={key}>
+    <div className="sidebar">
+      <ui className="workouts">
+        {Object.keys(props.workouts).map(key =>
+          key == props.editWorkout ? (
             <WorkoutForm
+              workoutKey={key}
               workouts={props.workouts}
               setWorkouts={props.setWorkouts}
               editWorkout={props.editWorkout}
               setEditWorkout={props.setEditWorkout}
               setHighlightWorkout={props.setHighlightWorkout}
             />
-          </div>
-        ) : (
-          <div key={key}>
+          ) : (
             <WorkoutWidget
               setMapFocus={props.setMapFocus}
               workoutKey={key}
@@ -79,10 +78,9 @@ export default function Sidebar(props) {
               setEditWorkout={props.setEditWorkout}
               setHighlightWorkout={props.setHighlightWorkout}
             />
-          </div>
-        )
-      )}
-
+          )
+        )}
+      </ui>
       <CreateWorkoutButton
         workouts={props.workouts}
         setWorkouts={props.setWorkouts}
