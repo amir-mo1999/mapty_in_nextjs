@@ -45,7 +45,6 @@ function onFormSubmit(e, props) {
     workout['duration'] = duration;
     workout['elevation'] = elevation;
     workout['workoutDate'] = workoutDate;
-    console.log(props.workouts);
     props.setWorkouts({ ...props.workouts, [props.editWorkout]: workout });
 
     // set workouts and workout counter in local storage

@@ -26,7 +26,6 @@ import AddMarkerPerClick from './addmarkerperclick';
  */
 function CenterToUserLocation() {
   if (autoCenterToUserLocation) {
-    console.log('1');
     const map = useMap();
     map.locate().on('locationfound', function (e) {
       map.setView(e.latlng);
