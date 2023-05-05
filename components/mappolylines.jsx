@@ -26,6 +26,46 @@ async function fetchPolyline(url) {
   return await response.json();
 }
 
+// calls the open route service with a given list of coordinates and returns distance and geometry
+async function fetchRouteData(coordinates) {
+  const headers = new Headers();
+
+  headers.append(
+    'Authorization',
+    '5b3ce3597851110001cf6248c31c4e81e9f2452faf9ed8c333dca4d2'
+  );
+  headers.append('Content-Type', 'application/json; charset=utf-8');
+  headers.append(
+    'Accept',
+    'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8'
+  );
+
+  const request = new Request(
+    'https://api.openrouteservice.org/v2/directions/foot-walking',
+    {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        coordinates: latLngToListOfLists(coordinates),
+      }),
+    }
+  );
+
+  const response = (await fetch(request)).json();
+  const content = await response.then(x => x);
+  const geometry = content['routes'][0]['geometry'];
+  const distance = content['routes'][0]['summary']['distance'];
+
+  return [geometry, distance];
+}
+
+// turns the list of latlng objects to a list of latlng lists
+function latLngToListOfLists(latLngList) {
+  let latLng = [];
+  latLngList.forEach(x => latLng.push([x.lng, x.lat]));
+  return latLng;
+}
+
 let lastMarkers = {};
 let currentMarkers = {};
 /***
@@ -49,25 +89,23 @@ function setGeometry(props) {
   const workout = props.workouts[props.editWorkout];
   // only call the api and set a polyline if at least two markers are present
   if (Object.keys(workout.markers).length >= 2) {
-    fetchPolyline(
-      'http://router.project-osrm.org/route/v1/driving/' +
-        latLngToString(Object.values(workout.markers))
-    )
-      .then(response => {
-        let dis = 0;
-        Object.values(response.routes[0].legs).forEach(
-          leg => (dis += leg['distance'])
-        );
+    fetchRouteData(Object.values(workout.markers)).then(x => console.log(x));
+
+    fetchRouteData(Object.values(workout.markers))
+      .then(res => {
+        const geometry = res[0];
+        const distance = res[1];
+
         props.setWorkouts({
           ...props.workouts,
           [props.editWorkout]: {
             ...props.workouts[props.editWorkout],
-            ...{ geometry: response['routes'][0]['geometry'] },
-            ...{ distance: dis },
+            ...{ geometry: geometry },
+            ...{ distance: distance },
           },
         });
       })
-      .catch(err => console.log('fetching error'));
+      .catch(err => console.log(err));
   } else {
     props.setWorkouts({
       ...props.workouts,
