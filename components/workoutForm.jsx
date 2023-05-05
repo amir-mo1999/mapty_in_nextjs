@@ -52,7 +52,7 @@ function onFormSubmit(e, props) {
     localStorage.setItem('workoutCounter', props.workoutCounter.toString());
     const aux = { ...props.workouts, [props.editWorkout]: workout };
     localStorage.setItem('workouts', JSON.stringify(aux));
-
+    props.setMapFocus([false, {}]);
     props.setEditWorkout(-1);
     props.setHighlightWorkout(-1);
   }

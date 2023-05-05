@@ -26,6 +26,7 @@ import AddMarkerPerClick from './addmarkerperclick';
  */
 function CenterToUserLocation() {
   if (autoCenterToUserLocation) {
+    console.log('1');
     const map = useMap();
     map.locate().on('locationfound', function (e) {
       map.setView(e.latlng);
@@ -54,7 +55,6 @@ function MapWrapper(props) {
   const workoutsAndCounter = getWorkoutsAndCounterFromLocalStorage();
   // load workouts and workout counter from local storage
   useEffect(() => {
-    console.log(workoutsAndCounter);
     props.setWorkouts({ ...workoutsAndCounter[0] });
     props.setWorkoutCounter(workoutsAndCounter[1]);
   }, []);
@@ -98,7 +98,11 @@ function MapWrapper(props) {
           setDisableAddMarker={setDisableAddMarker}
         ></AddMarkerPerClick>
         <CenterToUserLocation />
-        <FocusMap mapFocus={props.mapFocus} setMapFocus={props.setMapFocus} />
+        <FocusMap
+          mapFocus={props.mapFocus}
+          setMapFocus={props.setMapFocus}
+          editWorkout={props.editWorkout}
+        />
       </MapContainer>
     </div>
   );

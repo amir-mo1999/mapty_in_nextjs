@@ -69,6 +69,7 @@ export default function Sidebar(props) {
               workoutCounter={props.workoutCounter}
               setWorkouts={props.setWorkouts}
               editWorkout={props.editWorkout}
+              setMapFocus={props.setMapFocus}
               setEditWorkout={props.setEditWorkout}
               setHighlightWorkout={props.setHighlightWorkout}
             />

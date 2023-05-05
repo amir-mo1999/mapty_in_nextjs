@@ -28,7 +28,9 @@ function AddMarkerPerClick(props) {
           props.setDisableAddMarker(false);
         }
       } else {
-        props.setHighlightWorkout(-1);
+        if (props.editWorkout === -1) {
+          props.setHighlightWorkout(-1);
+        }
       }
     },
   });
