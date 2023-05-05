@@ -1,5 +1,5 @@
 import Sidebar from '@/components/sidebar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 const MapWrapper = dynamic(() => import('@/components/map'), {
@@ -12,6 +12,7 @@ export default function Index() {
   const [editWorkout, setEditWorkout] = useState(-1);
   const [highlightWorkout, setHighlightWorkout] = useState(-1);
   const [mapFocus, setMapFocus] = useState([false, {}]);
+
   return (
     <main className="">
       <Sidebar

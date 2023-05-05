@@ -89,8 +89,6 @@ function setGeometry(props) {
   const workout = props.workouts[props.editWorkout];
   // only call the api and set a polyline if at least two markers are present
   if (Object.keys(workout.markers).length >= 2) {
-    fetchRouteData(Object.values(workout.markers)).then(x => console.log(x));
-
     fetchRouteData(Object.values(workout.markers))
       .then(res => {
         const geometry = res[0];

@@ -6,9 +6,15 @@ function deleteWorkout(props) {
   props.setWorkouts({ ...workouts });
   props.setHighlightWorkout(-1);
   dontHighlight = true;
+
+  // delete workout from local storage
+  localStorage.setItem('workouts', JSON.stringify(workouts));
 }
 
 function formatDistance(d) {
+  if (d === null) {
+    return '0m';
+  }
   if (d >= 1000) {
     return [(+(d / 1000).toFixed(1)).toString(), 'km'];
   } else {

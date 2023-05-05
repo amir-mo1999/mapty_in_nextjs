@@ -66,6 +66,7 @@ export default function Sidebar(props) {
               key={key}
               workoutKey={key}
               workouts={props.workouts}
+              workoutCounter={props.workoutCounter}
               setWorkouts={props.setWorkouts}
               editWorkout={props.editWorkout}
               setEditWorkout={props.setEditWorkout}

@@ -35,8 +35,30 @@ function CenterToUserLocation() {
   }
 }
 
+function getWorkoutsAndCounterFromLocalStorage() {
+  const workouts =
+    localStorage.getItem('workouts') === null
+      ? {}
+      : JSON.parse(localStorage.getItem('workouts'));
+
+  const workoutCounter =
+    localStorage.getItem('workoutCounter') === null
+      ? {}
+      : Number(localStorage.getItem('workoutCounter'));
+  return [workouts, workoutCounter];
+}
+
 function MapWrapper(props) {
   const [disableAddMarker, setDisableAddMarker] = useState(false);
+
+  const workoutsAndCounter = getWorkoutsAndCounterFromLocalStorage();
+  // load workouts and workout counter from local storage
+  useEffect(() => {
+    console.log(workoutsAndCounter);
+    props.setWorkouts({ ...workoutsAndCounter[0] });
+    props.setWorkoutCounter(workoutsAndCounter[1]);
+  }, []);
+
   return (
     <div id="map" className="relative h-full w-full">
       <MapContainer
