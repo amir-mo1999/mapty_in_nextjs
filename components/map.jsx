@@ -90,7 +90,9 @@ function MapWrapper(props) {
           editWorkout={props.editWorkout}
         />
         <AddMarkerPerClick
+          highlightWorkout={props.highlightWorkout}
           setHighlightWorkout={props.setHighlightWorkout}
+          setMapFocus={props.setMapFocus}
           workouts={props.workouts}
           setWorkouts={props.setWorkouts}
           editWorkout={props.editWorkout}
