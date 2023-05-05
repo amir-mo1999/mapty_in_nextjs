@@ -43,7 +43,7 @@ function getWorkoutsAndCounterFromLocalStorage() {
 
   const workoutCounter =
     localStorage.getItem('workoutCounter') === null
-      ? {}
+      ? 0
       : Number(localStorage.getItem('workoutCounter'));
   return [workouts, workoutCounter];
 }

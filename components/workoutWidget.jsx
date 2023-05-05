@@ -8,7 +8,8 @@ function deleteWorkout(props) {
   dontHighlight = true;
 
   // delete workout from local storage
-  localStorage.setItem('workouts', JSON.stringify(workouts));
+  localStorage.setItem('workouts', JSON.stringify({ ...workouts }));
+  console.log({ ...workouts });
 }
 
 function formatDistance(d) {
